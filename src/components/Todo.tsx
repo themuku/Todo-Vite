@@ -2,13 +2,13 @@ import clsx from "clsx";
 import { FC } from "react";
 import Button, { ButtonSize } from "./Button";
 
-type Todo = {
+export type TodoType = {
   id: number;
   title: string;
   completed: boolean;
 };
 
-const Todo: FC<{ todo: Todo }> = ({ todo }) => {
+const Todo: FC<{ todo: TodoType }> = ({ todo }) => {
   return (
     <div
       className={clsx(

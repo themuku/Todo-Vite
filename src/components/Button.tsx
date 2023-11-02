@@ -11,12 +11,12 @@ type ButtonType = {
   children: React.ReactNode;
   size?: ButtonSize;
   isSecondary?: boolean;
-  onClick: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 const Button: FC<ButtonType> = ({
   children,
-  disabled = true,
+  disabled = false,
   size = ButtonSize.LARGE,
   isSecondary = false,
   onClick,
@@ -33,6 +33,7 @@ const Button: FC<ButtonType> = ({
           "px-2 py-1": size === ButtonSize.SMALL,
           "bg-lime-400 hover:bg-lime-600": !isSecondary,
           "bg-cyan-200 hover:bg-cyan-400": isSecondary,
+          "cursor-not-allowed bg-slate-400 hover:bg-slate-400": disabled,
         }
       )}
     >
