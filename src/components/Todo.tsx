@@ -1,6 +1,7 @@
 import clsx from "clsx";
-import { FC } from "react";
+import { FC, useState } from "react";
 import Button, { ButtonSize } from "./Button";
+import Input from "./Input";
 
 export type TodoType = {
   id: number;
@@ -8,7 +9,15 @@ export type TodoType = {
   completed: boolean;
 };
 
-const Todo: FC<{ todo: TodoType }> = ({ todo }) => {
+const Todo: FC<{
+  todo: TodoType;
+  onDelete: (id: number) => void;
+  onEdit: (id: number, newTitle: string) => void;
+}> = ({ todo, onDelete, onEdit }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+  const [todoValue, setTodoValue] = useState(todo.title);
+
   return (
     <div
       className={clsx(
@@ -19,15 +28,56 @@ const Todo: FC<{ todo: TodoType }> = ({ todo }) => {
         }
       )}
     >
-      <h4>{todo.title}</h4>
-      <div className="flex gap-4">
-        <Button isSecondary size={ButtonSize.SMALL} onClick={() => {}}>
-          🖊️
-        </Button>
-        <Button isSecondary size={ButtonSize.SMALL} onClick={() => {}}>
-          ❌
-        </Button>
-      </div>
+      {isEditing && (
+        <>
+          <Input
+            isEditing
+            isValid={isValid}
+            setIsValid={setIsValid}
+            setTodoValue={setTodoValue}
+            todoValue={todoValue}
+          />
+          <div className="flex gap-4">
+            <Button
+              isSecondary
+              isEditing
+              size={ButtonSize.SMALL}
+              onClick={() => {
+                if (!isEditing) return;
+                onEdit(todo.id, todoValue);
+                setIsEditing(false);
+              }}
+            >
+              Edit
+            </Button>
+          </div>
+        </>
+      )}
+      {!isEditing && (
+        <>
+          <h4>{todo.title}</h4>
+          <div className="flex gap-4">
+            <Button
+              isSecondary
+              size={ButtonSize.SMALL}
+              onClick={() => {
+                setIsEditing(true);
+              }}
+            >
+              🖊️
+            </Button>
+            <Button
+              isSecondary
+              size={ButtonSize.SMALL}
+              onClick={() => {
+                onDelete(todo.id);
+              }}
+            >
+              ❌
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -11,6 +11,7 @@ type ButtonType = {
   children: React.ReactNode;
   size?: ButtonSize;
   isSecondary?: boolean;
+  isEditing?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
@@ -19,6 +20,7 @@ const Button: FC<ButtonType> = ({
   disabled = false,
   size = ButtonSize.LARGE,
   isSecondary = false,
+  isEditing,
   onClick,
 }) => {
   return (
@@ -27,13 +29,15 @@ const Button: FC<ButtonType> = ({
       disabled={disabled}
       onClick={onClick}
       className={clsx(
-        "text-center font-semibold transition-all duration-100 text-white text-semibold rounded-full",
+        "text-center font-semibold transition-all duration-100  text-semibold rounded-full",
         {
           "px-8 py-4": size === ButtonSize.LARGE,
           "px-2 py-1": size === ButtonSize.SMALL,
           "bg-lime-400 hover:bg-lime-600": !isSecondary,
           "bg-cyan-200 hover:bg-cyan-400": isSecondary,
           "cursor-not-allowed bg-slate-400 hover:bg-slate-400": disabled,
+          "bg-cyan-300 hover:bg-cyan-500 text-slate-900 px-4": isEditing,
+          "text-white": !isEditing,
         }
       )}
     >
