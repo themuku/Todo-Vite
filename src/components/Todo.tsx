@@ -13,7 +13,8 @@ const Todo: FC<{
   todo: TodoType;
   onDelete: (id: number) => void;
   onEdit: (id: number, newTitle: string) => void;
-}> = ({ todo, onDelete, onEdit }) => {
+  checkTodo: (id: number) => void;
+}> = ({ todo, onDelete, onEdit, checkTodo }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [todoValue, setTodoValue] = useState(todo.title);
@@ -31,7 +32,7 @@ const Todo: FC<{
       {isEditing && (
         <>
           <Input
-            isEditing
+            isEditing={isEditing}
             isValid={isValid}
             setIsValid={setIsValid}
             setTodoValue={setTodoValue}
@@ -40,7 +41,7 @@ const Todo: FC<{
           <div className="flex gap-4">
             <Button
               isSecondary
-              isEditing
+              isEditing={isEditing}
               size={ButtonSize.SMALL}
               onClick={() => {
                 if (!isEditing) return;
@@ -74,6 +75,15 @@ const Todo: FC<{
               }}
             >
               ❌
+            </Button>
+            <Button
+              isSecondary
+              size={ButtonSize.SMALL}
+              onClick={() => {
+                checkTodo(todo.id);
+              }}
+            >
+              {todo.completed ? "✅" : "⛔"}
             </Button>
           </div>
         </>

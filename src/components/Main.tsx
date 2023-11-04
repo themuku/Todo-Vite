@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useState } from "react";
 import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
 import { TodoType } from "./Todo";
@@ -45,10 +45,29 @@ const Main: FC = () => {
     });
   };
 
+  const checkTodo = (id: number) => {
+    setTodoList((prevTodo) => {
+      return prevTodo.map((todoItem) => {
+        if (todoItem.id === id) {
+          return {
+            ...todoItem,
+            completed: !todoItem.completed,
+          };
+        }
+        return todoItem;
+      });
+    });
+  };
+
   return (
     <main className="mt-16 flex flex-col items-stretch gap-6 w-[1000px] mx-auto h-[600px] mb-16">
       <TodoInput setTodo={setTodoList} />
-      <TodoList onEdit={editTodo} onDelete={deleteTodo} todos={todoList} />
+      <TodoList
+        checkTodo={checkTodo}
+        onEdit={editTodo}
+        onDelete={deleteTodo}
+        todos={todoList}
+      />
     </main>
   );
 };

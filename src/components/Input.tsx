@@ -14,7 +14,7 @@ const Input: FC<InputType> = ({
   setIsValid,
   todoValue,
   isValid,
-  isEditing = false,
+  isEditing,
 }) => {
   return (
     <input
@@ -35,7 +35,7 @@ const Input: FC<InputType> = ({
       type="text"
       placeholder="Type your todo"
       className={clsx(
-        "w-full transition-all duration-200 ease-in outline-none px-4 py-1 rounded-full text-white",
+        "transition-all duration-200 ease-in outline-none px-4 py-1 rounded-full text-white",
         {
           "bg-red-400 placeholder:text-white": !isValid,
           "bg-slate-800 placeholder-shown:bg-slate-800": isValid,
@@ -49,4 +49,4 @@ const Input: FC<InputType> = ({
   );
 };
 
-export default Input;
+export default React.memo(Input);

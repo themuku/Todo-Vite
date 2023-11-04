@@ -1,7 +1,6 @@
 import { FC, FormEvent, useState } from "react";
 import Button from "./Button";
 import { TodoType } from "./Todo";
-import clsx from "clsx";
 import Input from "./Input";
 
 const TodoInput: FC<{

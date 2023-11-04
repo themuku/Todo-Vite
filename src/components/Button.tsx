@@ -1,5 +1,6 @@
 import { FC } from "react";
 import clsx from "clsx";
+import React from "react";
 
 export enum ButtonSize {
   LARGE = "LARGE",
@@ -23,6 +24,7 @@ const Button: FC<ButtonType> = ({
   isEditing,
   onClick,
 }) => {
+  console.log(isEditing);
   return (
     <button
       type="submit"
@@ -46,4 +48,4 @@ const Button: FC<ButtonType> = ({
   );
 };
 
-export default Button;
+export default React.memo(Button);
