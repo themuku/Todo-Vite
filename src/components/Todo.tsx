@@ -22,7 +22,7 @@ const Todo: FC<{
   return (
     <div
       className={clsx(
-        "px-4 py-2 w-full rounded-md flex justify-between items-center",
+        "px-4 py-2 w-full transition-all duration-150 rounded-md flex justify-between items-center",
         {
           "bg-lime-300": todo.completed,
           "bg-red-400": !todo.completed,
