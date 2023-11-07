@@ -1,34 +1,34 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
 import { TodoType } from "./Todo";
 import React from "react";
 
-const TODOS = [
-  {
-    id: 1,
-    title: "Todo 1",
-    completed: true,
-  },
-  {
-    id: 2,
-    title: "Todo 2",
-    completed: false,
-  },
-  {
-    id: 3,
-    title: "Todo 3",
-    completed: false,
-  },
-];
-
 const Main: FC = () => {
-  const [todoList, setTodoList] = useState<TodoType[]>(TODOS);
+  const [todoList, setTodoList] = useState<TodoType[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/todo")
+      .then((res) => res.json())
+      .then((data) => {
+        setTodoList(data);
+      });
+  }, []);
 
   const deleteTodo = (id: number) => {
     setTodoList((prevTodo) => {
       return prevTodo.filter((todoItem) => id !== todoItem.id);
     });
+    fetch(`http://localhost:3000/todo/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const editTodo = (id: number, newTitle: string) => {
@@ -40,6 +40,21 @@ const Main: FC = () => {
             title: newTitle,
           };
         }
+
+        fetch(`http://localhost:3000/todo/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: newTitle,
+          }),
+        })
+          .then((res) => res.json())
+          .catch((err) => {
+            console.log(err);
+          });
+
         return todoItem;
       });
     });
@@ -54,6 +69,21 @@ const Main: FC = () => {
             completed: !todoItem.completed,
           };
         }
+
+        fetch(`http://localhost:3000/todo/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            completed: !todoItem.completed,
+          }),
+        })
+          .then((res) => res.json())
+          .catch((err) => {
+            console.log(err);
+          });
+
         return todoItem;
       });
     });
